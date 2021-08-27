@@ -1,4 +1,3 @@
-import './style.css';
 import {
   BoxGeometry,
   Mesh,
@@ -7,8 +6,9 @@ import {
   Scene,
   WebGLRenderer,
   AxesHelper,
-  Group,
 } from 'three';
+import gsap from 'gsap';
+import './style.css';
 
 const canvas = document.querySelector('.webgl');
 const scene = new Scene();
@@ -16,30 +16,11 @@ const scene = new Scene();
 /**
  * OBJECTS
  */
-const group = new Group();
-scene.add(group);
-group.position.y = 1;
-group.scale.y = 2;
-
-const cube1 = new Mesh(
+const mesh = new Mesh(
   new BoxGeometry(1, 1, 1),
   new MeshBasicMaterial({ color: 'red' })
 );
-group.add(cube1);
-
-const cube2 = new Mesh(
-  new BoxGeometry(1, 1, 1),
-  new MeshBasicMaterial({ color: 'rebeccapurple' })
-);
-cube2.position.x = -2;
-group.add(cube2);
-
-const cube3 = new Mesh(
-  new BoxGeometry(1, 1, 1),
-  new MeshBasicMaterial({ color: 'blue' })
-);
-cube3.position.x = 2;
-group.add(cube3);
+scene.add(mesh);
 
 /**
  * AXES HELPER
@@ -67,7 +48,15 @@ const renderer = new WebGLRenderer({
 });
 renderer.setSize(sizes.width, sizes.height);
 
-/**
- * RENDER
- */
-renderer.render(scene, camera);
+gsap.to(mesh.position, { duration: 1, delay: 1, x: 2 });
+gsap.to(mesh.position, { duration: 1, delay: 2, x: 0 });
+
+/* ANIMATIONS */
+const tick = () => {
+  /**
+   * RENDER
+   */
+  renderer.render(scene, camera);
+  window.requestAnimationFrame(tick);
+};
+tick();
