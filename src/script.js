@@ -23,7 +23,38 @@ const handleMouseMove = (e) => {
   cursor.x = e.clientX / sizes.width - 0.5;
   cursor.y = -(e.clientY / sizes.height - 0.5);
 };
+const handleResize = () => {
+  sizes.width = window.innerWidth;
+  sizes.height = window.innerHeight;
+
+  camera.aspect = sizes.width / sizes.height;
+  camera.updateProjectionMatrix();
+
+  renderer.setSize(sizes.width, sizes.height);
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+};
+const handleDblClick = () => {
+  const fullscreenEl =
+    document.fullscreenElement || document.webkitFullscreenElement;
+
+  if (!fullscreenEl) {
+    if (canvas.requestFullscreen) {
+      canvas.requestFullscreen();
+    } else {
+      canvas.webkitRequestFullscreen();
+    }
+  } else {
+    if (document.exitFullscreen) {
+      document.exitFullscreen();
+    } else {
+      document.webkitExitFullscreen();
+    }
+  }
+};
+
 window.addEventListener('mousemove', handleMouseMove);
+window.addEventListener('resize', handleResize);
+window.addEventListener('dblclick', handleDblClick);
 
 const canvas = document.querySelector('.webgl');
 const scene = new Scene();
@@ -44,8 +75,8 @@ const axesHelper = new AxesHelper(3);
 scene.add(axesHelper);
 
 const sizes = {
-  width: 800,
-  height: 600,
+  width: window.innerWidth,
+  height: window.innerHeight,
 };
 
 /**
@@ -68,6 +99,7 @@ const renderer = new WebGLRenderer({
   canvas,
 });
 renderer.setSize(sizes.width, sizes.height);
+renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 
 const clock = new Clock();
 
