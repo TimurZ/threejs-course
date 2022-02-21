@@ -11,6 +11,7 @@ import {
 // import gsap from 'gsap';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
 import './style.css';
+import handleFullScreen from './utils/requestFullScreen';
 
 /**
  * CURSOR
@@ -34,22 +35,7 @@ const handleResize = () => {
   renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 };
 const handleDblClick = () => {
-  const fullscreenEl =
-    document.fullscreenElement || document.webkitFullscreenElement;
-
-  if (!fullscreenEl) {
-    if (canvas.requestFullscreen) {
-      canvas.requestFullscreen();
-    } else {
-      canvas.webkitRequestFullscreen();
-    }
-  } else {
-    if (document.exitFullscreen) {
-      document.exitFullscreen();
-    } else {
-      document.webkitExitFullscreen();
-    }
-  }
+  handleFullScreen(canvas);
 };
 
 window.addEventListener('mousemove', handleMouseMove);
@@ -62,10 +48,7 @@ const scene = new Scene();
 /**
  * OBJECTS
  */
-const mesh = new Mesh(
-  new BoxGeometry(1, 1, 1, 5, 5, 5),
-  new MeshBasicMaterial({ color: 'red' })
-);
+const mesh = new Mesh(new BoxGeometry(1, 1, 1, 5, 5, 5), new MeshBasicMaterial({ color: 'red' }));
 scene.add(mesh);
 
 /**
