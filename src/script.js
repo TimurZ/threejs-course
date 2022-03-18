@@ -48,7 +48,11 @@ const scene = new Scene();
 /**
  * OBJECTS
  */
-const mesh = new Mesh(new BoxGeometry(1, 1, 1, 5, 5, 5), new MeshBasicMaterial({ color: 'red' }));
+// BoxGeometry: width, height, depth, widthSegments, heightSegments, depthSegments
+const mesh = new Mesh(
+  new BoxGeometry(1, 1, 1),
+  new MeshBasicMaterial({ color: 'red', wireframe: true })
+);
 scene.add(mesh);
 
 /**
