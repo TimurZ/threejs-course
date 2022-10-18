@@ -4,7 +4,7 @@
     "dev": "webpack serve --config ./bundler/webpack.dev.js"
   },
   "dependencies": {
-    "gsap": "^3.9.1",
+    "gsap": "^3.11.3",
     "three": "^0.131.3"
   },
   "devDependencies": {
