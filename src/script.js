@@ -25,13 +25,17 @@ const handleMouseMove = (e) => {
   cursor.y = -(e.clientY / sizes.height - 0.5);
 };
 const handleResize = () => {
+  // update sizes
   sizes.width = window.innerWidth;
   sizes.height = window.innerHeight;
 
+  // update camera
   camera.aspect = sizes.width / sizes.height;
   camera.updateProjectionMatrix();
 
+  // update renderer
   renderer.setSize(sizes.width, sizes.height);
+  // update pixel ratio for multiple screens with different pixel ratio
   renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 };
 const handleDblClick = () => {
@@ -70,7 +74,7 @@ const sizes = {
  * CAMERA
  */
 const camera = new PerspectiveCamera(75, sizes.width / sizes.height, 0.1, 100);
-camera.position.z = 2;
+camera.position.z = 3;
 scene.add(camera);
 
 /**
@@ -86,6 +90,8 @@ const renderer = new WebGLRenderer({
   canvas,
 });
 renderer.setSize(sizes.width, sizes.height);
+// this will prevent pixelRatio to go above 3
+// due to possible performance issues
 renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 
 const clock = new Clock();
