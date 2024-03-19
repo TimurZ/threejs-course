@@ -6,7 +6,7 @@
 
 ## Fullscreen and resizing
 
-When page is resized width and height changes so new camera.aspect should be set (width / height). After making changes to most of these properties you will have to call `.updateProjectionMatrix` for the changes to take effect `renderer.setPixelRatio` should also be updated.
+When page is resized width and height changes so new `camera.aspect` should be set (width / height). After making changes to most of these properties you will have to call `.updateProjectionMatrix` for the changes to take effect `renderer.setPixelRatio` should also be updated.
 
 ### Pixel ratio
 
