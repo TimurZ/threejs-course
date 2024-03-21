@@ -7,6 +7,8 @@ import {
   WebGLRenderer,
   AxesHelper,
   Clock,
+  BufferAttribute,
+  BufferGeometry,
 } from 'three';
 // import gsap from 'gsap';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
@@ -49,12 +51,23 @@ window.addEventListener('dblclick', handleDblClick);
 const canvas = document.querySelector('.webgl');
 const scene = new Scene();
 
+const count = 10 * 3 * 3;
+const vertices = new Float32Array(count);
+
+for (let i = 0; i < count; i++) {
+  vertices[i] = (Math.random() - 0.5) * 2;
+}
+
+const geometry = new BufferGeometry();
+geometry.setAttribute('position', new BufferAttribute(vertices, 3));
+
 /**
  * OBJECTS
  */
 // BoxGeometry: width, height, depth, widthSegments, heightSegments, depthSegments
 const mesh = new Mesh(
-  new BoxGeometry(1, 1, 1),
+  // new BoxGeometry(1, 1, 1, 4, 4, 4),
+  geometry,
   new MeshBasicMaterial({ color: 'red', wireframe: true })
 );
 scene.add(mesh);
