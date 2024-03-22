@@ -10,10 +10,17 @@ import {
   BufferAttribute,
   BufferGeometry,
 } from 'three';
-// import gsap from 'gsap';
+import gsap from 'gsap';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
+import GUI from 'lil-gui';
+
 import './style.css';
 import handleFullScreen from './utils/requestFullScreen';
+
+const gui = new GUI();
+const debugState = {
+  color: '#cb55f0',
+};
 
 /**
  * CURSOR
@@ -58,19 +65,30 @@ for (let i = 0; i < count; i++) {
   vertices[i] = (Math.random() - 0.5) * 2;
 }
 
-const geometry = new BufferGeometry();
-geometry.setAttribute('position', new BufferAttribute(vertices, 3));
+// const geometry = new BufferGeometry();
+// geometry.setAttribute('position', new BufferAttribute(vertices, 3));
 
-/**
- * OBJECTS
- */
-// BoxGeometry: width, height, depth, widthSegments, heightSegments, depthSegments
+const material = new MeshBasicMaterial({ color: debugState.color, wireframe: true });
+
 const mesh = new Mesh(
-  // new BoxGeometry(1, 1, 1, 4, 4, 4),
-  geometry,
-  new MeshBasicMaterial({ color: 'red', wireframe: true })
+  // BoxGeometry: width, height, depth, widthSegments, heightSegments, depthSegments
+  new BoxGeometry(1, 1, 1, 4, 4, 4),
+  // geometry,
+  material
 );
 scene.add(mesh);
+
+gui.add(mesh.position, 'y').name('elevation').min(-3).max(3).step(0.01);
+gui.add(mesh, 'visible');
+gui.add(material, 'wireframe');
+gui.addColor(debugState, 'color').onChange(() => {
+  material.color.set(debugState.color);
+});
+
+debugState.spin = () => {
+  gsap.to(mesh.rotation, { y: mesh.rotation.y + Math.PI * 2 });
+};
+gui.add(debugState, 'spin');
 
 /**
  * AXES HELPER

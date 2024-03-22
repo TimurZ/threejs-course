@@ -25,3 +25,11 @@ Geometry composed of point coordinates in 3D which is called **vertices** (verte
 * **Transformation**: Meshes can be translated, rotated, and scaled in 3D space to position them within a scene and orient them as desired.
 
 Using a `Float32Array` for storing vertex positions ensures efficient memory usage, compatibility with WebGL, and seamless integration with Three.js's geometry representation and attribute system
+
+## Debug UI
+When applying colors directly via gui and threejs, there's color space differences and color won't be the same if copy-pasted. We need to create an object with color and modify it instead.
+```
+gui.addColor(debugState, 'color').onChange(() => {
+  material.color.set(debugState.color);
+});
+```
