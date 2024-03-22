@@ -19,6 +19,7 @@ import handleFullScreen from './utils/requestFullScreen';
 
 const gui = new GUI();
 const debugState = {
+  subdivision: 2,
   color: '#cb55f0',
 };
 
@@ -65,17 +66,21 @@ for (let i = 0; i < count; i++) {
   vertices[i] = (Math.random() - 0.5) * 2;
 }
 
+// BoxGeometry: width, height, depth, widthSegments, heightSegments, depthSegments
+const geometry = new BoxGeometry(
+  1,
+  1,
+  1,
+  debugState.subdivision,
+  debugState.subdivision,
+  debugState.subdivision
+);
 // const geometry = new BufferGeometry();
 // geometry.setAttribute('position', new BufferAttribute(vertices, 3));
 
 const material = new MeshBasicMaterial({ color: debugState.color, wireframe: true });
 
-const mesh = new Mesh(
-  // BoxGeometry: width, height, depth, widthSegments, heightSegments, depthSegments
-  new BoxGeometry(1, 1, 1, 4, 4, 4),
-  // geometry,
-  material
-);
+const mesh = new Mesh(geometry, material);
 scene.add(mesh);
 
 gui.add(mesh.position, 'y').name('elevation').min(-3).max(3).step(0.01);
@@ -89,6 +94,16 @@ debugState.spin = () => {
   gsap.to(mesh.rotation, { y: mesh.rotation.y + Math.PI * 2 });
 };
 gui.add(debugState, 'spin');
+
+gui
+  .add(debugState, 'subdivision')
+  .min(1)
+  .max(40)
+  .step(1)
+  .onFinishChange((value) => {
+    mesh.geometry.dispose();
+    mesh.geometry = new BoxGeometry(1, 1, 1, value, value, value);
+  });
 
 /**
  * AXES HELPER

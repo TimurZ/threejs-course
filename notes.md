@@ -33,3 +33,9 @@ gui.addColor(debugState, 'color').onChange(() => {
   material.color.set(debugState.color);
 });
 ```
+**Add tweaks during progress** to not miss anything and make it easier to find more suitablel value.
+
+When creating new geometry/texture/etc, always `dispose` the previous one.
+`mesh.geometry.dispose();`
+
+## Textures
