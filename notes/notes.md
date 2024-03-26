@@ -37,5 +37,3 @@ gui.addColor(debugState, 'color').onChange(() => {
 
 When creating new geometry/texture/etc, always `dispose` the previous one.
 `mesh.geometry.dispose();`
-
-## Textures
